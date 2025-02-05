@@ -1,32 +1,55 @@
-import { Cards } from "nextra/components"
-import { CirclePlay, Workflow, CloudUpload } from "lucide-react"
+import { Cards } from "nextra/components";
+import { CirclePlay, Workflow, CloudUpload, DatabaseZap, GitCompareArrows } from "lucide-react";
+import { Callout } from 'nextra/components'
  
 
-# Hackathon
- 
-Through hands-on hacking, perform a detailed, practical investigation of Bacalhau (https://www.bacalhau.org/) - a software solution for 
-distributed compute over data - aiming to achieve technical goals and report on outcomes as detailed below.
- 
-At minimum, this will involve testing usage with existing open source computational workflows and tools for Cohort Discovery
-as developed at the University of Nottingham.
+# Bacalhau Hackathon
+
+<Callout emoji="🎉">
+  Welcome to the **HDR UK and ELIXIR joint Hackathon**!
+</Callout>
+
+## We're investigating [Bacalhau]
+
+Through hands-on hacking, perform a detailed, practical investigation of Bacalhau - a software solution for
+distributed compute over data - aiming to achieve technical goals and report on investigation outcomes.
 
 ## Pre-requisites
 
 <Cards>
   <Cards.Card
     icon={<CirclePlay />}
-    title="Run Bacalhau"
-    href="/join/bacalhau"
+    title="Running Bacalhau"
+    href="/join-in/running-bacalhau"
   />
+
+  <Cards.Card
+    icon={<DatabaseZap />}
+    title="Synthetic Data Setup"
+    href="/join-in/synthetic-data"
+  />
+</Cards>
+
+## Activities
+
+<Cards>
   <Cards.Card
     icon={<Workflow />}
-    title="Run Workflows"
-    href="/join/workflows"
+    title="Running Workflows"
+    href="/join-in/running-workflows"
   />
 
   <Cards.Card
     icon={<CloudUpload />}
-    title="Deployment"
-    href="/join/deployment"
+    title="Deploying Bacalhau"
+    href="/join-in/deploying-bacalhau"
+  />
+
+  <Cards.Card
+    icon={<GitCompareArrows />}
+    title="Gap Analysis"
+    href="/join-in/gap-analysis"
   />
 </Cards>
+
+[Bacalhau]: https://www.bacalhau.org/
