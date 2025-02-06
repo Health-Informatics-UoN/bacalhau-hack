@@ -1,0 +1,98 @@
+import { Callout, Tabs, Table, Td, Th, Tr, Code } from "nextra/components";
+import { Steps } from "nextra/components";
+
+# Synthetic Data Setup
+
+Depending on the analysis workflows being run, you may want to bring your own suitable data for testing with.
+
+For the initial Cohort Discovery workflows, the instructions below will give you a local database of synthetic OMOP CDM data to work with.
+
+## Cohort Discovery OMOP CDM
+
+You can find out more about the [OMOP CDM from OHDSI](https://www.ohdsi.org/data-standardization/), and [their guidance](https://github.com/OHDSI/Vocabulary-v5.0/wiki/General-Structure,-Download-and-Use) for creating one.
+
+The guidance below will allow you to quickly build a suitable OMOP database, or load a slightly more comprehensive dataset available from the Project Leads.
+
+<Tabs items={['Build a starter dataset', 'From Project Leads']}>
+  <Tabs.Tab>
+    ## Database Setup
+    <Steps>
+
+      ### Start the containers
+
+      The `starter-omop.compose.yml` in the root of the repository can start a Postgres database container, and an init service `omop-lite`.
+
+      [`omop-lite`](https://github.com/Health-Informatics-UoN/omop-lite) will load a small synthetic OMOP CDM of 100 people, enough to run some Cohort Discovery queries.
+
+      Or you can use it to load your own data files by changing the `starter-omop.compose.yml` file.
+
+      ```bash copy
+      docker compose -f starter-omop.compose.yml up db omop-lite
+      ```
+
+      ### Configuration
+
+      You can connect to the now running OMOP CDM with the following configuration:
+
+      ```bash copy filename=".env" 
+      DATASOURCE_DB_USERNAME=postgres
+      DATASOURCE_DB_PASSWORD=postgres
+      DATASOURCE_DB_DATABASE=omop
+      DATASOURCE_DB_DRIVERNAME=postgresql
+      DATASOURCE_DB_SCHEMA=omop
+      DATASOURCE_DB_PORT=5432
+      DATASOURCE_DB_HOST=localhost
+      ```    
+    </Steps>
+    
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ## Database Setup
+
+    <Callout type="info">
+      These instructions assume you have a pre-existing OMOP CDM Postgresql database dump
+      and it can be called `omop_db.tar`, for example, as below.
+    </Callout>
+
+    <Steps>
+    ### Start the database container
+
+    The `starter-omop.compose.yml` in the root of the repository can start a database container with
+
+    ```bash copy
+    docker compose -f starter-omop.compose.yml up db
+    ```
+
+    This will initialise a Postgres instance in the container.
+
+    ### Copy the data
+
+    Navigate to the folder containing `omop_db.tar` and copy it into the container with:
+
+    ```bash copy
+    docker cp hutch_db.tar starter-omop-db-1:/
+    ```
+
+    ### Start running bash in your container
+
+    ```bash copy
+    docker exec -it starter-omop-db-1 bash
+    ```
+
+    ### Use pg_restore to load the data into the database
+
+    ```bash copy
+    pg_restore --dbname=postgres --host=localhost --port=5432 --username=postgres --password omop_db.tar
+    ```
+
+    If prompted, provide `postgres` as a password
+
+    You can then exit the container with `ctrl+d` or `exit`
+
+    </Steps>
+
+  </Tabs.Tab>
+</Tabs>
+
+
