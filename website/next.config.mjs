@@ -1,10 +1,22 @@
-import nextra from 'nextra'
- 
+import nextra from "nextra";
+
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = {
+  basePath: "/hutch",
+  assetPrefix: "/hutch",
+  output: "export",
+  images: {
+    unoptimized: true, // mandatory, otherwise won't export
+  },
+  // Optional: Change the output directory `out` -> `dist`
+  // distDir: "build"
+};
+
 const withNextra = nextra({
   // ... Other Nextra config options
-})
- 
+});
+
 // You can include other Next.js configuration options here, in addition to Nextra settings:
-export default withNextra({
-  // ... Other Next.js config options
-})
+export default withNextra(nextConfig);
