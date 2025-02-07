@@ -4,8 +4,8 @@ import nextra from "nextra";
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  basePath: "/hutch",
-  assetPrefix: "/hutch",
+  basePath: "/bacalhau-hack",
+  assetPrefix: "/bacalhau-hack",
   output: "export",
   images: {
     unoptimized: true, // mandatory, otherwise won't export
