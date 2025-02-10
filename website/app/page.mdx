@@ -1,7 +1,12 @@
 import { Cards } from "nextra/components";
-import { CirclePlay, Workflow, CloudUpload, DatabaseZap, GitCompareArrows } from "lucide-react";
-import { Callout } from 'nextra/components'
- 
+import {
+  CirclePlay,
+  Workflow,
+  CloudUpload,
+  DatabaseZap,
+  GitCompareArrows,
+} from "lucide-react";
+import { Callout } from "nextra/components";
 
 # Bacalhau Hackathon
 
@@ -11,8 +16,15 @@ import { Callout } from 'nextra/components'
 
 ## We're investigating [Bacalhau]
 
-Through hands-on hacking, perform a detailed, practical investigation of Bacalhau - a software solution for
-distributed compute over data - aiming to achieve technical goals and report on investigation outcomes.
+Our collaborative notes are [publicly viewable][notes-doc].
+
+<Callout type="info">
+  Please contact a Project Lead in person or via the Hackathon Slack to:
+
+  - Get repository write access
+  - Get Notes Doc write access
+  - Pick up some tasks!
+</Callout>
 
 ## Pre-requisites
 
@@ -39,11 +51,12 @@ distributed compute over data - aiming to achieve technical goals and report on 
     href="/join-in/running-workflows"
   />
 
-  <Cards.Card
-    icon={<CloudUpload />}
-    title="Deploying Bacalhau"
-    href="/join-in/deploying-bacalhau"
-  />
+{" "}
+<Cards.Card
+  icon={<CloudUpload />}
+  title="Deploying Bacalhau"
+  href="/join-in/deploying-bacalhau"
+/>
 
   <Cards.Card
     icon={<GitCompareArrows />}
@@ -53,3 +66,4 @@ distributed compute over data - aiming to achieve technical goals and report on 
 </Cards>
 
 [Bacalhau]: https://www.bacalhau.org/
+[notes-doc]: https://docs.google.com/document/d/1yQF22PQwQEpMtPT6puxjyOTwfrs2aaR8osgNOH1ZPFc/edit?usp=sharing
