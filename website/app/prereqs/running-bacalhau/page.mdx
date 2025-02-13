@@ -1,3 +1,5 @@
+import { Tabs, Steps, Callout } from "nextra/components";
+
 # Running Bacalhau
 
 The first thing the project needs to achieve is getting Bacalhau up and running locally.
@@ -9,6 +11,109 @@ Once as a project team we complete this step:
 
 ## Getting Started
 
-Here are the [docs](https://www.bacalhau.org/) for setting up.
+Bacalhau has pretty great (albeit not perfect) documentation.
 
-`// TODO ...`
+However here we have distilled some guidance to getting started as quick as possible for our purposes.
+
+### Running the CLI
+
+Lots of things\* in Bacalhau are handled through its CLI:
+
+- Running nodes
+- Configuring the network
+- Submitting jobs to a network
+- ...
+
+\* Some things can be done via the REST API of an Orchestrator node (which in turn is run by the CLI!)
+
+It's easy to run the CLI both locally or in a docker container:
+
+<Tabs items={['Local', 'docker run']}>
+  <Tabs.Tab>
+   
+  <Steps>
+  #### Install locally
+
+e.g. `curl -sL https://get.bacalhau.org/install.sh | bash`
+
+[Installation docs](https://docs.bacalhau.org/getting-started/installation/step-1-install-the-bacalhau-cli#install-the-bacalhau-cli)
+
+#### Run the CLI
+
+e.g. `bacalhau version`
+
+[CLI Guide](https://docs.bacalhau.org/references/cli-reference)
+
+  </Steps>
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+You can `docker run` the Bacalhau container image and simply provide CLI arguments.
+
+e.g. `docker run -it ghcr.io/bacalhau-project/bacalhau:latest version`
+
+<Callout>
+  Depending on what you're asking the CLI to do, you may need additional
+  arguments to `docker run`, such as volume mounts or port mappings.
+</Callout>
+
+  </Tabs.Tab>
+</Tabs>
+
+### Running a Private network
+
+Bacalhau essentially configures a compute network of connected nodes.
+
+Node hosts can be however localised or distributed as you want, in a variety of environments.
+
+You could imagine, for example, a federated network of TREs, where a "front door" TRE hosts a Bacalhau Orchestrator node, and each TRE runs a Bacalhau Compute node connected to that Orchestrator?
+
+(cf. TRE-FX, DARE UK Blueprint architecture etc.)
+
+To run a Private Network locally:
+
+<Tabs items={['Local single node', 'Local devstack', 'docker run devstack']}>
+  <Tabs.Tab>
+   
+   You can actually start a single Orchestrator and a single Compute node at the same time from one CLI process:
+
+  `bacalhau serve --orchestrator --compute`
+
+  The Orchestrator API will be accessible at `http://localhost:1234`
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+  Bacalhau offers a helpful way to set up a local development network of 3 Compute nodes and an Orchestrator, all from one CLI process.
+
+  <Steps>
+  #### Configure the CLI
+
+  The docs advise to set this, to ensure the Orchestrator node listens on a known port, but the behaviour appears to differ from the docs - it seems to listen on `1234`.
+
+  `export PREDICTABLE_API_PORT=1`
+
+  #### Run the CLI
+
+  `bacalhau devstack`
+
+  [CLI Guide](https://docs.bacalhau.org/references/cli-reference)
+
+  </Steps>
+
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+
+  Bacalhau offers a helpful way to set up a local development network of 3 Compute nodes and an Orchestrator, all from one CLI process:
+
+  </Tabs.Tab>
+</Tabs>
+
+<Callout>
+  For other Private Network scenarios, see [Deploying
+  Bacalhau](/activities/deploying-bacalhau)
+</Callout>
+
+### Running jobs
