@@ -151,3 +151,37 @@ We can demonstrate how to run a Hello World example.
 
   </Tabs.Tab>
 </Tabs>
+
+## Mount volume
+### Configure allowed local path when setting up a node
+To run a container that requires files as an input you need to give bacalhau access to the files in the directory.
+<Tabs items={['Local', 'docker run']}>
+  <Tabs.Tab>  
+    ```bash copy
+  bacalhau serve --compute --orchestrator --allow-listed-local-paths /path/to/dir..
+  ```
+  </Tabs.Tab>
+   <Tabs.Tab>
+
+  ```bash copy
+  docker run -it -v /var/run/docker.sock:/var/run/docker.sock -e PREDICTABLE_API_PORT=1 -p 1234:1234 ghcr.io/bacalhau-project/bacalhau:latest devstack --allow-listed-local-paths /path/to/dir..
+  ```
+  </Tabs.Tab>
+</Tabs>
+
+### Mount URIs as inputs to the job.
+<Tabs items={['Local', 'docker run']}>
+  <Tabs.Tab>  
+    ```bash copy
+  bacalhau docker run -i file:///path/to/file IMAGE -- [COMMAND] [ARG...]
+  ```
+  </Tabs.Tab>
+
+  <Tabs.Tab>  
+    ```bash copy
+  docker run -it --rm ghcr.io/bacalhau-project/bacalhau:latest docker run -c API.Host=host.docker.internal -i file:///path/to/file IMAGE -- [COMMAND] [ARG...]
+  ```
+  </Tabs.Tab>
+
+
+</Tabs>
