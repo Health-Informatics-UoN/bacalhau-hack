@@ -78,7 +78,9 @@ To run a Private Network locally:
    
    You can actually start a single Orchestrator and a single Compute node at the same time from one CLI process:
 
-  `bacalhau serve --orchestrator --compute`
+  ```bash copy
+  bacalhau serve --orchestrator --compute
+  ```
 
   The Orchestrator API will be accessible at `http://localhost:1234`
 
@@ -92,11 +94,15 @@ To run a Private Network locally:
 
   The docs advise to set this, to ensure the Orchestrator node listens on a known port, but the behaviour appears to differ from the docs - it seems to listen on `1234`.
 
-  `export PREDICTABLE_API_PORT=1`
+  ```bash copy
+  export PREDICTABLE_API_PORT=1
+  ```
 
   #### Run the CLI
 
-  `bacalhau devstack`
+  ```bash copy
+  bacalhau devstack
+  ```
 
   The Orchestrator API will be accessible at `http://localhost:1234`
 
@@ -122,6 +128,10 @@ To run a Private Network locally:
 
   </Tabs.Tab>
 </Tabs>
+
+You can add the following configuration if you need compute-nodes to accept jobs which require network access
+
+`-c JobAdmissionControl.AcceptNetworkedJobs=true`
 
 <Callout>
   For other Private Network scenarios, see [Deploying Bacalhau](/activities/deploying-bacalhau)
