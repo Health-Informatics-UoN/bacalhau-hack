@@ -1,0 +1,17 @@
+# Hutch Beacon
+
+We tried running our Hutch Beacon Resolver (A GA4GH Beacon API Request resolver).
+
+First we tried just asking Bacalhau to run the docker image for this tool directly.
+
+We encountered learning opportunities in the form of needing to pass environment variables as well as cli arguments.
+
+## Getting the container image running
+
+Example command for running:
+
+```bash
+docker run -it --rm ghcr.io/bacalhau-project/bacalhau:latest docker run --api-host host.docker.internal --wait -e DATASOURCE_DB_USERNAME=postgres -e DATASOURCE_DB_PASSWORD=postgres -e DATASOURCE_DB_HOST=host.docker.internal -e DATASOURCE_DB_SCHEMA=omop -e DATASOURCE_DB_PORT=5432 -e DATASOURCE_DB_DATABASE=omop hutchstack/beacon-omop-worker:latest --entrypoint beacon-omop-worker -- individuals --filters "Gender:F,SNOMED:386661006,SNOMED:271825005"
+```
+
+This run successfully but fails to connect to the database and produce an output.
