@@ -98,6 +98,8 @@ To run a Private Network locally:
 
   `bacalhau devstack`
 
+  The Orchestrator API will be accessible at `http://localhost:1234`
+
   [CLI Guide](https://docs.bacalhau.org/references/cli-reference)
 
   </Steps>
@@ -107,13 +109,45 @@ To run a Private Network locally:
   <Tabs.Tab>
 
   Bacalhau offers a helpful way to set up a local development network of 3 Compute nodes and an Orchestrator, all from one CLI process:
+  
+  ```bash copy
+  docker run -it -v /var/run/docker.sock:/var/run/docker.sock -e PREDICTABLE_API_PORT=1 -p 1234:1234 ghcr.io/bacalhau-project/bacalhau:latest devstack
+  ```
+
+  In essence we are running `bacalhau devstack` but from the CLI container image and with some configuration:
+
+  - In order for the Compute nodes to run Docker workloads, we mount the Docker socket
+  - `PREDICTABLE_API_PORT=1` is suggested by the docs to ensure the Orchestrator node is on a known port
+  - We observe that the Orchestrator listens on `1234`, so we map that port to the host so future client CLI runs can connect
 
   </Tabs.Tab>
 </Tabs>
 
 <Callout>
-  For other Private Network scenarios, see [Deploying
-  Bacalhau](/activities/deploying-bacalhau)
+  For other Private Network scenarios, see [Deploying Bacalhau](/activities/deploying-bacalhau)
 </Callout>
 
 ### Running jobs
+
+We can demonstrate how to run a Hello World example. 
+
+  <Tabs items={['Local', 'docker run']}>
+  <Tabs.Tab>
+
+  ```bash copy
+  bacalhau docker run ubuntu echo Hello World
+  ```
+
+  </Tabs.Tab>
+  <Tabs.Tab>
+
+  ```bash copy
+  docker run -it --rm ghcr.io/bacalhau-project/bacalhau:latest docker run -c API.Host=host.docker.internal ubuntu echo "Hello World"
+  ```
+
+  Here we essentially run `bacalhau docker run ubuntu echo Hello World`, but from the CLI container image.
+
+  The only complexity is informing the CLI what Orchestrator node to connect. The CLI defaults to `localhost` but we are running both this CLi instance and our private network in isolated containers, so we have to go through the container Host. So we use `host.docker.internal`.
+
+  </Tabs.Tab>
+</Tabs>
