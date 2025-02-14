@@ -1,0 +1,58 @@
+name: bacalhau-dev
+
+services:
+  orchestrator:
+    image: ghcr.io/bacalhau-project/bacalhau:latest
+    restart: always
+    ports:
+      - 1234:1234
+    command: serve --orchestrator # -c /config/bacalhau/config.yml
+    environment:
+      PREDICTABLE_API_PORT: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  bacalhau-compute:
+    image: ghcr.io/bacalhau-project/bacalhau:latest
+    restart: always
+    command: serve --compute -c /config/bacalhau/config.yml
+    environment:
+      PREDICTABLE_API_PORT: 1
+    volumes:
+      - type: bind
+        source: ./config/compute-config.yml
+        target: /config/bacalhau/config.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./inputs:/inputs
+
+  # db:
+  #   image: postgres:16
+  #   restart: always
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: omop
+
+  # omop-lite:
+  #   image: ghcr.io/health-informatics-uon/omop-lite
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     DB_PASSWORD: postgres
+  #     DB_NAME: omop
+  #     SYNTHETIC: true
+
+  # adminer:
+  #   image: wodby/adminer
+  #   depends_on:
+  #     - db
+  #   restart: always
+  #   ports:
+  #     - 9000:9000
+  #   environment:
+  #     ADMINER_DEFAULT_DB_DRIVER: pgsql
+  #     ADMINER_DEFAULT_DB_HOST: db
+  #     ADMINER_DESIGN: pepa-linha
+
+  

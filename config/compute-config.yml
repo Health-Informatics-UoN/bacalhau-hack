@@ -1,0 +1,5 @@
+JobAdmissionControl:
+  AcceptNetworkedJobs: true
+
+Compute:
+  AllowListedLocalPaths: /inputs:ro
